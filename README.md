@@ -20,7 +20,7 @@ $ cd openvpn-server
 $ mkdir roles
 $ git -C roles clone https://github.com/sniner/ansible-openvpn-server-role.git openvpn-server
 $ echo "10.20.30.40" > hosts
-$ echo <<EOT
+$ cat > play.yml <<EOT
 - hosts: 10.20.30.40
   vars:
     openvpn_ipv4:
