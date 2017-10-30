@@ -1,0 +1,5 @@
+- name: reload sysctl
+  shell: sysctl --system
+
+- name: reload iptables
+  shell: /etc/network/if-up.d/iptables-restore

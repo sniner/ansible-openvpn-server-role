@@ -1,0 +1,84 @@
+- name: Setup ipv4 firewall rules (1/1)
+  iptables:
+    ip_version: ipv4
+    chain: POSTROUTING
+    table: nat
+    out_interface: "{{ ansible_default_ipv4.alias }}"
+    source: "{{ openvpn_ipv4.subnet }}/{{ openvpn_ipv4.length }}"
+    jump: MASQUERADE
+  register: ipv4_1
+
+- name: Setup ipv6 firewall rules (1/7)
+  iptables:
+    ip_version: ipv6
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+  register: ipv6_1
+
+- name: Setup ipv6 firewall rules (2/7)
+  iptables:
+    ip_version: ipv6
+    chain: INPUT
+    match: conntrack
+    ctstate: INVALID
+    jump: DROP
+  register: ipv6_2
+
+- name: Setup ipv6 firewall rules (3/7)
+  iptables:
+    ip_version: ipv6
+    chain: INPUT
+    match: conntrack
+    ctstate: RELATED,ESTABLISHED
+    jump: ACCEPT
+  register: ipv6_3
+
+- name: Setup ipv6 firewall rules (4/7)
+  iptables:
+    ip_version: ipv6
+    chain: FORWARD
+    match: conntrack
+    ctstate: RELATED,ESTABLISHED
+    jump: ACCEPT
+  register: ipv6_4
+
+- name: Setup ipv6 firewall rules (5/7)
+  iptables:
+    ip_version: ipv6
+    chain: INPUT
+    protocol: ipv6-icmp
+    jump: ACCEPT
+  register: ipv6_5
+
+- name: Setup ipv6 firewall rules (6/7)
+  iptables:
+    ip_version: ipv6
+    chain: FORWARD
+    protocol: ipv6-icmp
+    jump: ACCEPT
+  register: ipv6_6
+
+- name: Setup ipv6 firewall rules (7/7)
+  iptables:
+    ip_version: ipv6
+    chain: FORWARD
+    source: "{{ openvpn_ipv6.prefix }}:{{ openvpn_ipv6.addon }}::/{{ openvpn_ipv6.length }}"
+    jump: ACCEPT
+  register: ipv6_7
+
+- name: Save firewall rules
+  shell: |
+    iptables-save > /etc/iptables.rules
+    ip6tables-save > /etc/ip6tables.rules
+  when: ipv4_1.changed or ipv6_1.changed or ipv6_2.changed or ipv6_3.changed or ipv6_4.changed or ipv6_5.changed or ipv6_6.changed or ipv6_7.changed
+
+- name: Copy firewall restore skript
+  copy:
+    content: |
+      #!/bin/sh
+      iptables-restore < /etc/iptables.rules
+      ip6tables-restore < /etc/ip6tables.rules
+    dest: /etc/network/if-up.d/iptables-restore
+    mode: 0755
+  notify: reload iptables

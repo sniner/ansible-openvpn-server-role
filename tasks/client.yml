@@ -1,0 +1,16 @@
+- name: Create OpenVPN client directory
+  file:
+    path: /etc/openvpn/client
+    state: directory
+
+- name: Copy client build script
+  template:
+    src: openvpn-build-client.sh.j2
+    dest: /etc/openvpn/client/build-client
+    mode: 0744
+
+- name: Copy client template
+  template:
+    src: openvpn-client-template.j2
+    dest: /etc/openvpn/client/client.template
+    mode: 0644

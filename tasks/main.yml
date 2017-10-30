@@ -1,0 +1,14 @@
+- name: Install OpenVPN
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - iptables
+    - openvpn
+    - easy-rsa
+
+- include_tasks: system.yml
+- include_tasks: iptables.yml
+- include_tasks: pki.yml
+- include_tasks: openvpn.yml
+- include_tasks: client.yml

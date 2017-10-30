@@ -1,0 +1,32 @@
+## OpenVPN client configuration ({{ _openvpn_key_org }})
+
+client
+remote {{ ansible_fqdn }} {{ _openvpn_port }}
+proto {{ _openvpn_protocol }}
+dev tun
+
+keepalive 10 60
+compress lzo
+persist-tun
+persist-key
+nobind
+
+key-direction 1
+remote-cert-tls server
+auth-nocache
+
+<ca>
+${CA}
+</ca>
+
+<cert>
+${CERT}
+</cert>
+
+<key>
+${KEY}
+</key>
+
+<tls-auth>
+${TA}
+</tls-auth>

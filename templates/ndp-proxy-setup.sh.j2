@@ -1,0 +1,24 @@
+#!/bin/bash
+
+action="$1"
+addr="$2"
+
+if [[ "${addr//:/}" == "$addr" ]]; then
+    # not an ipv6 address
+    exit
+fi
+
+#pubif="$(ip route show | awk '$1 ~/default/ && $2 ~/via/ && $4 ~/dev/ { print $5 }')"
+pubif="{{ ansible_default_ipv4.alias }}"
+
+case "$action" in
+    add)
+        ip -6 neigh add proxy ${addr} dev ${pubif}
+        ;;
+    update)
+        ip -6 neigh replace proxy ${addr} dev ${pubif}
+        ;;
+    delete)
+        ip -6 neigh del proxy ${addr} dev ${pubif}
+        ;;
+esac

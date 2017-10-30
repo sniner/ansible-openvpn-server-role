@@ -1,0 +1,8 @@
+- name: Copy sysctl.d configuration
+  template:
+    src: sysctl-openvpn.conf.j2
+    dest: /etc/sysctl.d/99-openvpn.conf
+    backup: no
+  notify: reload sysctl
+
+

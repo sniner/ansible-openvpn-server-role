@@ -1,0 +1,17 @@
+# OpenVPN
+
+_openvpn_port: "{{ openvpn_port|default('1194') }}"
+_openvpn_protocol: "{{ openvpn_protocol|default('udp') }}"
+
+# PKI
+
+_openvpn_key_size: "{{ openvpn_key_size|default('2048') }}"
+_openvpn_ca_expire: "{{ openvpn_ca_expire|default('365') }}"
+_openvpn_key_expire: "{{ openvpn_key_expire|default('365') }}"
+_openvpn_key_country: "{{ openvpn_key_country|default('DE') }}"
+_openvpn_key_province: "{{ openvpn_key_province|default('BY') }}"
+_openvpn_key_city: "{{ openvpn_key_city|default('Wolperdingen') }}"
+_openvpn_key_org: "{{ openvpn_key_org|default('Jackalope') }}"
+_openvpn_key_email: "{{ openvpn_key_email|default('mail@example.com') }}"
+_openvpn_key_ou: "{{ openvpn_key_ou|default('Jackalope') }}"
+_openvpn_key_name: "{{ openvpn_key_name|default('Jackalope') }}"

@@ -1,0 +1,64 @@
+- name: Copy easy-rsa
+  shell: cp -a /usr/share/easy-rsa /etc/openvpn
+  args:
+    creates: /etc/openvpn/easy-rsa
+
+- name: Copy easy-rsa vars
+  template:
+    src: easy-rsa-vars.j2
+    dest: /etc/openvpn/easy-rsa/vars
+    backup: yes
+    mode: 0644
+
+# Bei Debian Stretch wird die passende openssl.cnf-Datei nicht gefunden, man muss
+# manuell einen Link erstellen. Ist das ein Bug?
+- name: Link openssl.cnf
+  file:
+    src: /etc/openvpn/easy-rsa/openssl-1.0.0.cnf
+    dest: /etc/openvpn/easy-rsa/openssl.cnf
+    state: link
+
+# Die folgenden Shell-Blöcke funktionieren nicht mit der Default-Shell wegen `source`.
+# Deswegen bash.
+- name: Initialize PKI
+  shell: |
+    source ./vars
+    ./clean-all
+  args:
+    chdir: /etc/openvpn/easy-rsa/
+    executable: /bin/bash
+    creates: /etc/openvpn/easy-rsa/keys
+
+- name: Build CA
+  shell: |
+    source ./vars
+    ./build-ca --batch
+  args:
+    chdir: /etc/openvpn/easy-rsa/
+    executable: /bin/bash
+    creates: /etc/openvpn/easy-rsa/keys/ca.crt
+
+- name: Build DH
+  shell: |
+    source ./vars
+    ./build-dh --batch
+  args:
+    chdir: /etc/openvpn/easy-rsa/
+    executable: /bin/bash
+    creates: /etc/openvpn/easy-rsa/keys/dh{{ _openvpn_key_size }}.pem
+
+- name: Generate TLS key
+  shell: |
+    openvpn --genkey --secret keys/ta.key
+  args:
+    chdir: /etc/openvpn/easy-rsa/
+    creates: /etc/openvpn/easy-rsa/keys/ta.key
+
+- name: Build server key
+  shell: |
+    source ./vars
+    ./build-key-server --batch {{ ansible_fqdn }}
+  args:
+    chdir: /etc/openvpn/easy-rsa/
+    executable: /bin/bash
+    creates: /etc/openvpn/easy-rsa/keys/{{ ansible_fqdn }}.crt

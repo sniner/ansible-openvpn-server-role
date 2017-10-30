@@ -1,0 +1,39 @@
+- name: Create OpenVPN skript directory
+  file:
+    path: /etc/openvpn/scripts
+    state: directory
+
+- name: Copy NDP proxy skript
+  template:
+    src: ndp-proxy-setup.sh.j2
+    dest: /etc/openvpn/scripts/ndp-proxy-setup.sh
+    mode: 0744
+
+- name: Copy OpenVPN config file
+  template:
+    src: ndp-proxy-setup.sh.j2
+    dest: /etc/openvpn/scripts/ndp-proxy-setup.sh
+    mode: 0744
+
+- name: Create OpenVPN server directory
+  file:
+    path: /etc/openvpn/server
+    state: directory
+
+- name: Copy OpenVPN server file
+  template:
+    src: openvpn-server.conf.j2
+    dest: /etc/openvpn/server/server.conf
+    mode: 0744
+
+- name: Link OpenVPN server file
+  file:
+    src: /etc/openvpn/server/server.conf
+    dest: /etc/openvpn/server.conf
+    state: link
+
+- name: Start OpenVPN service
+  service:
+    name: openvpn@server
+    enabled: true
+    state: started
