@@ -1,8 +1,8 @@
-# Setup an OpenVPN server with IPv6 support
+# OpenVPN server with IPv6 support
 
-This ansible role will install OpenVPN with support for IPv6 inside the tunnel.
+This Ansible role will install OpenVPN with support for IPv6 inside the tunnel.
 
-Thanks to Niko at [techgrube.de](https://www.techgrube.de/ueber-mich) for his [blog entry on this matter][2].
+Thanks to Niko at [techgrube.de](https://www.techgrube.de/ueber-mich) for his [blog entry][2] on this matter.
 
 
 ## Quick start
