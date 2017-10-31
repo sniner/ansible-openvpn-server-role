@@ -3,3 +3,8 @@
 
 - name: reload iptables
   shell: /etc/network/if-up.d/iptables-restore
+
+- name: restart openvpn
+  service:
+    name: openvpn@server
+    state: restarted

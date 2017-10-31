@@ -7,6 +7,7 @@
     source: "{{ openvpn_ipv4.subnet }}/{{ openvpn_ipv4.length }}"
     jump: MASQUERADE
   register: ipv4_1
+  notify: reload iptables
 
 - name: Setup ipv6 firewall rules (1/7)
   iptables:
@@ -15,6 +16,7 @@
     in_interface: lo
     jump: ACCEPT
   register: ipv6_1
+  notify: reload iptables
 
 - name: Setup ipv6 firewall rules (2/7)
   iptables:
@@ -24,6 +26,7 @@
     ctstate: INVALID
     jump: DROP
   register: ipv6_2
+  notify: reload iptables
 
 - name: Setup ipv6 firewall rules (3/7)
   iptables:
@@ -33,6 +36,7 @@
     ctstate: RELATED,ESTABLISHED
     jump: ACCEPT
   register: ipv6_3
+  notify: reload iptables
 
 - name: Setup ipv6 firewall rules (4/7)
   iptables:
@@ -42,6 +46,7 @@
     ctstate: RELATED,ESTABLISHED
     jump: ACCEPT
   register: ipv6_4
+  notify: reload iptables
 
 - name: Setup ipv6 firewall rules (5/7)
   iptables:
@@ -50,6 +55,7 @@
     protocol: ipv6-icmp
     jump: ACCEPT
   register: ipv6_5
+  notify: reload iptables
 
 - name: Setup ipv6 firewall rules (6/7)
   iptables:
@@ -58,6 +64,7 @@
     protocol: ipv6-icmp
     jump: ACCEPT
   register: ipv6_6
+  notify: reload iptables
 
 - name: Setup ipv6 firewall rules (7/7)
   iptables:
@@ -66,6 +73,7 @@
     source: "{{ openvpn_ipv6.prefix }}:{{ openvpn_ipv6.addon }}::/{{ openvpn_ipv6.length }}"
     jump: ACCEPT
   register: ipv6_7
+  notify: reload iptables
 
 - name: Save firewall rules
   shell: |

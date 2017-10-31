@@ -10,16 +10,15 @@
     backup: yes
     mode: 0644
 
-# Bei Debian Stretch wird die passende openssl.cnf-Datei nicht gefunden, man muss
-# manuell einen Link erstellen. Ist das ein Bug?
+# Fixes a bug in Debian Stretch. See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=851059
 - name: Link openssl.cnf
   file:
     src: /etc/openvpn/easy-rsa/openssl-1.0.0.cnf
     dest: /etc/openvpn/easy-rsa/openssl.cnf
     state: link
+  when: ansible_distribution == 'Debian' and ansible_distribution_major_version|int == 9
 
-# Die folgenden Shell-Blöcke funktionieren nicht mit der Default-Shell wegen `source`.
-# Deswegen bash.
+# Fails with default shell, so bash is used instead
 - name: Initialize PKI
   shell: |
     source ./vars

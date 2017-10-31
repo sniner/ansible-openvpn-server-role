@@ -8,12 +8,14 @@
     src: ndp-proxy-setup.sh.j2
     dest: /etc/openvpn/scripts/ndp-proxy-setup.sh
     mode: 0744
+  notify: restart openvpn
 
 - name: Copy OpenVPN config file
   template:
     src: ndp-proxy-setup.sh.j2
     dest: /etc/openvpn/scripts/ndp-proxy-setup.sh
     mode: 0744
+  notify: restart openvpn
 
 - name: Create OpenVPN server directory
   file:
@@ -25,7 +27,11 @@
     src: openvpn-server.conf.j2
     dest: /etc/openvpn/server/server.conf
     mode: 0744
+  notify: restart openvpn
 
+# OpenVPN in Debian Stretch comes with 'client' and 'server' subdirectories already
+# created, but the systemd service unit only loads conf files from base directory.
+# That's why the conf file will be symlinked now.
 - name: Link OpenVPN server file
   file:
     src: /etc/openvpn/server/server.conf
