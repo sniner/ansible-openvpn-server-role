@@ -3,7 +3,7 @@ proto {{ _openvpn_protocol }}
 dev tun
 
 topology subnet
-server {{ openvpn_ipv4.subnet }} {{ openvpn_ipv4.mask }}
+server {{ openvpn_ipv4.subnet }} {{ _openvpn_ipv4_netmask[openvpn_ipv4.length] }}
 server-ipv6 {{ openvpn_ipv6.prefix }}:{{ openvpn_ipv6.addon }}::/{{ openvpn_ipv6.length }}
 
 script-security 2

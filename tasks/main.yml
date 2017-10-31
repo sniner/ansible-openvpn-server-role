@@ -7,6 +7,9 @@
     - openvpn
     - easy-rsa
 
+- include_vars:
+    file: netmask.yml
+
 - include_tasks: system.yml
 - include_tasks: iptables.yml
 - include_tasks: pki.yml
