@@ -9,7 +9,7 @@ Thanks to Niko at [techgrube.de](https://www.techgrube.de/ueber-mich) for his [b
 
 For this example, we assume that
 
-* your server runs on Debian
+* your server runs Debian
 * the public IPv4 of your server is `10.20.30.40`
 * the routable IPv6 prefix of your server is `2000:1234:5678:abcd::/64`
 

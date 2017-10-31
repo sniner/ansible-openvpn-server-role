@@ -4,5 +4,3 @@
     dest: /etc/sysctl.d/99-openvpn.conf
     backup: no
   notify: reload sysctl
-
-
