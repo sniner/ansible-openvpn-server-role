@@ -20,7 +20,7 @@ push "redirect-gateway ipv6"
 push "dhcp-option DNS 8.8.4.4"
 
 tls-auth /etc/openvpn/easy-rsa/keys/ta.key 0
-keepalive 10 60
+keepalive 30 90
 compress lzo
 
 persist-key

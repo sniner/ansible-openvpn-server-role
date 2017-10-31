@@ -5,7 +5,7 @@ remote {{ ansible_fqdn }} {{ _openvpn_port }}
 proto {{ _openvpn_protocol }}
 dev tun
 
-keepalive 10 60
+keepalive 30 90
 compress lzo
 persist-tun
 persist-key
