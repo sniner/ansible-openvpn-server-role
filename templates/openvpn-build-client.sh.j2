@@ -5,7 +5,7 @@ PKI="/etc/openvpn/easy-rsa"
 KEYS="${PKI}/keys"
 TEMPLATE="$BASE/client.template"
 
-CLIENT="$1"
+export CLIENT="$1"
 
 if [[ -z "${CLIENT}" ]] ; then
     echo "Usage: $(basename "$0") client"
@@ -40,6 +40,7 @@ function finish {
     unset KEY
     unset TA
     unset CA
+    unset CLIENT
 }
 trap finish EXIT
 

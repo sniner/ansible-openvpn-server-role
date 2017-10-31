@@ -1,7 +1,7 @@
-## OpenVPN client configuration ({{ _openvpn_key_org }})
+## OpenVPN client configuration ({{ _openvpn_key_org }} - ${CLIENT})
 
 client
-remote {{ ansible_fqdn }} {{ _openvpn_port }}
+remote {{ _openvpn_host }} {{ _openvpn_port }}
 proto {{ _openvpn_protocol }}
 dev tun
 

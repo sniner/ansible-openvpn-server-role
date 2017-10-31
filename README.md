@@ -23,13 +23,15 @@ $ echo "10.20.30.40" > hosts
 $ cat > play.yml <<EOT
 - hosts: 10.20.30.40
   vars:
-    openvpn_ipv4:
-      subnet: "172.16.16.0"
-      length: "24"
-    openvpn_ipv6:
-      prefix: "2000:1234:5678:abcd"
-      addon: "cafe"
-      length: "80"
+    openvpn_server:
+      ca_expire: 730
+      ipv4:
+        prefix: "172.16.16.0"
+        length: "24"
+      ipv6:
+        prefix: "2000:1234:5678:abcd"
+        addon: "cafe"
+        length: "80"
   roles:
     - openvpn-server
 EOT
@@ -46,11 +48,11 @@ When it is through, your OpenVPN server is up and running :-)
 
 ## More details
 
-* `openvpn_ipv4.subnet`: this has to be a **private** subnet. Clients will receive an IP out of this subnet, which will be NATed to the public IPv4 of your server.
-* `openvpn_ipv4.length`: the length of the network prefix of the subnet.
-* `openvpn_ipv6.prefix`: has to be the **public** (i.e. routable) IPv6 /64 prefix of your server.
-* `openvpn_ipv6.addon`: used to divide the IPv6 address range into two parts. See [OpenVPN wiki][1] on "Splitting a single routable IPv6 netblock".
-* `openvpn_ipv6.length`: length of the prefix part, i.e. 64 + length of addon.
+* `ipv4.prefix`: this has to be a **private** subnet. Clients will receive an IP out of this subnet, which will be NATed to the public IPv4 of your server.
+* `ipv4.length`: the length of the network prefix of the subnet.
+* `ipv6.prefix`: has to be the **public** (i.e. routable) IPv6 /64 prefix of your server.
+* `ipv6.addon`: used to divide the IPv6 address range into two parts. See [OpenVPN wiki][1] on "Splitting a single routable IPv6 netblock".
+* `ipv6.length`: length of the prefix part, i.e. 64 + length of addon.
 
 Have a look at [vars](./vars/main.yml) for more, especially the PKI part.
 

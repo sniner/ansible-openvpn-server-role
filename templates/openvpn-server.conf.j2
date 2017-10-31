@@ -3,18 +3,18 @@ proto {{ _openvpn_protocol }}
 dev tun
 
 topology subnet
-server {{ openvpn_ipv4.subnet }} {{ _openvpn_ipv4_netmask[openvpn_ipv4.length|int] }}
-server-ipv6 {{ openvpn_ipv6.prefix }}:{{ openvpn_ipv6.addon }}::/{{ openvpn_ipv6.length }}
+server {{ _openvpn_ipv4_prefix }} {{ _openvpn_ipv4_netmask[_openvpn_ipv4_length|int] }}
+server-ipv6 {{ _openvpn_ipv6_prefix }}:{{ _openvpn_ipv6_addon }}::/{{ _openvpn_ipv6_length }}
 
 script-security 2
 learn-address "/etc/openvpn/scripts/ndp-proxy-setup.sh"
 
 ca /etc/openvpn/easy-rsa/keys/ca.crt
-cert /etc/openvpn/easy-rsa/keys/{{ ansible_fqdn }}.crt
-key /etc/openvpn/easy-rsa/keys/{{ ansible_fqdn }}.key
+cert /etc/openvpn/easy-rsa/keys/{{ _openvpn_host }}.crt
+key /etc/openvpn/easy-rsa/keys/{{ _openvpn_host }}.key
 dh /etc/openvpn/easy-rsa/keys/dh{{ _openvpn_key_size }}.pem
 
-push "route-ipv6 2000::/3 {{ openvpn_ipv6.prefix }}:{{ openvpn_ipv6.addon }}::1"
+push "route-ipv6 2000::/3 {{ _openvpn_ipv6_prefix }}:{{ _openvpn_ipv6_addon }}::1"
 push "redirect-gateway def1"
 push "redirect-gateway ipv6"
 push "dhcp-option DNS 8.8.4.4"

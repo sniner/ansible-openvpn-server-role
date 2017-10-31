@@ -56,8 +56,8 @@
 - name: Build server key
   shell: |
     source ./vars
-    ./build-key-server --batch {{ ansible_fqdn }}
+    ./build-key-server --batch {{ _openvpn_host }}
   args:
     chdir: /etc/openvpn/easy-rsa/
     executable: /bin/bash
-    creates: /etc/openvpn/easy-rsa/keys/{{ ansible_fqdn }}.crt
+    creates: /etc/openvpn/easy-rsa/keys/{{ _openvpn_host }}.crt

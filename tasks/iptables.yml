@@ -3,8 +3,8 @@
     ip_version: ipv4
     chain: POSTROUTING
     table: nat
-    out_interface: "{{ ansible_default_ipv4.alias }}"
-    source: "{{ openvpn_ipv4.subnet }}/{{ openvpn_ipv4.length }}"
+    out_interface: "{{ _openvpn_public_interface }}"
+    source: "{{ _openvpn_ipv4_prefix }}/{{ _openvpn_ipv4_length }}"
     jump: MASQUERADE
   register: ipv4_1
   notify: reload iptables
@@ -70,7 +70,7 @@
   iptables:
     ip_version: ipv6
     chain: FORWARD
-    source: "{{ openvpn_ipv6.prefix }}:{{ openvpn_ipv6.addon }}::/{{ openvpn_ipv6.length }}"
+    source: "{{ _openvpn_ipv6_prefix }}:{{ _openvpn_ipv6_addon }}::/{{ _openvpn_ipv6_length }}"
     jump: ACCEPT
   register: ipv6_7
   notify: reload iptables

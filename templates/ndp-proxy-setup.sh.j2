@@ -9,7 +9,7 @@ if [[ "${addr//:/}" == "$addr" ]]; then
 fi
 
 #pubif="$(ip route show | awk '$1 ~/default/ && $2 ~/via/ && $4 ~/dev/ { print $5 }')"
-pubif="{{ ansible_default_ipv4.alias }}"
+pubif="{{ _openvpn_public_interface }}"
 
 case "$action" in
     add)
