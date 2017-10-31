@@ -8,38 +8,38 @@ TEMPLATE="$BASE/client.template"
 CLIENT="$1"
 
 if [[ -z "${CLIENT}" ]] ; then
-        echo "Usage: $(basename "$0") client"
-        exit 0
+    echo "Usage: $(basename "$0") client"
+    exit 0
 fi
 
 if [[ ! -e "${TEMPLATE}" ]] ; then
-        echo "Template ${TEMPLATE} missing!"
-        exit 1
+    echo "Template ${TEMPLATE} missing!"
+    exit 1
 fi
 
 if [[ ! -e "${KEYS}/${CLIENT}.crt" ]] ; then
-        echo "Key for ${CLIENT} not found."
-        read -p "Do you want to build it? (y/n)" -n 1 -r
-		echo
-		if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
-			exit 2
-		fi
-		(
-			cd "${PKI}"
-			source ./vars
-			./build-key-pass --batch "${CLIENT}"
-		)
-		if [[ ! -e "${KEYS}/${CLIENT}.crt" ]] ; then
-	        echo "Key for ${CLIENT} still missing!"
-	        exit 2
-	    fi
+    echo "Key for ${CLIENT} not found."
+    read -p "Do you want to build it? (y/n)" -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
+        exit 2
+    fi
+    (
+        cd "${PKI}"
+        source ./vars
+        ./build-key-pass --batch "${CLIENT}"
+    )
+    if [[ ! -e "${KEYS}/${CLIENT}.crt" ]] ; then
+        echo "Key for ${CLIENT} still missing!"
+        exit 2
+    fi
 fi
 
 function finish {
-	unset CERT
-	unset KEY
-	unset TA
-	unset CA
+    unset CERT
+    unset KEY
+    unset TA
+    unset CA
 }
 trap finish EXIT
 
@@ -49,3 +49,5 @@ export TA=$(< "${KEYS}/ta.key")
 export CA=$(< "${KEYS}/ca.crt")
 
 awk '{while(match($0,"[$]{[^}]*}")) {var=substr($0,RSTART+2,RLENGTH -3);gsub("[$]{"var"}",ENVIRON[var])}}1' < ${TEMPLATE} > ${CLIENT}.ovpn
+
+# vim: set et sw=4 ts=4:
