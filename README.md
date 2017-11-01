@@ -7,7 +7,7 @@ Thanks to Niko at [techgrube.de](https://www.techgrube.de/ueber-mich) for his [b
 
 ## Quick start
 
-For this example, we assume that
+For this example, it is assumed that
 
 * your server runs Debian
 * the public IPv4 of your server is `10.20.30.40`
@@ -21,7 +21,7 @@ $ mkdir roles
 $ git -C roles clone https://github.com/sniner/ansible-openvpn-server-role.git openvpn-server
 $ echo "10.20.30.40" > hosts
 $ cat > play.yml <<EOT
-- hosts: 10.20.30.40
+- hosts: all
   vars:
     openvpn_server:
       ca_expire: 730
@@ -37,13 +37,19 @@ $ cat > play.yml <<EOT
 EOT
 ```
 
-Edit the files to your liking. After that run the playbook:
+Instead of cloning the git repository, you can also download from Ansible Galaxy:
+
+```
+$ ansible-galaxy install sniner.openvpn-server -p roles
+```
+
+Edit `hosts` and `play.yml` to your liking. After that run the playbook:
 
 ```
 $ ansible-playbook -i hosts -u root play.yml
 ```
 
-When it is through, your OpenVPN server is up and running :-)
+Congratulations, your OpenVPN server is up and running :-)
 
 
 ## More details
@@ -76,9 +82,9 @@ To check if your IPv6 tunnel is working as expected, open this link: [test-ipv6.
 
 ## Copyright
 
-Author: Stefan Schönberger <mail@sniner.net>
+Author: [Stefan Schönberger](https://github.com/sniner)
 
-License: MIT
+License: [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 [1]: https://community.openvpn.net/openvpn/wiki/IPv6
 [2]: https://www.techgrube.de/tutorials/openvpn-server-mit-ipv4-und-ipv6

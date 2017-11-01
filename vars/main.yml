@@ -12,18 +12,15 @@ _openvpn_ipv6_length: "{{ openvpn_server.ipv6.length | default(96) }}"
 
 _openvpn_public_interface: "{{ ansible_default_ipv4.alias }}"
 
-# Alternative to lookup table, but requires python-netaddr to be installed
-##_openvpn_ipv4_netmask: "{{ '{{ openvpn_server.ipv4.prefix }}/{{ openvpn_server.ipv4.length }}' | ipaddr('netmask') }}"
-
 # PKI
 
 _openvpn_key_size: "{{ openvpn_server.key_size | default('2048') }}"
 _openvpn_ca_expire: "{{ openvpn_server.ca_expire | default('365') }}"
 _openvpn_key_expire: "{{ openvpn_server.key_expire | default('365') }}"
-_openvpn_key_country: "{{ openvpn_server.key_country | default('DE') }}"
-_openvpn_key_province: "{{ openvpn_server.key_province | default('BY') }}"
-_openvpn_key_city: "{{ openvpn_server.key_city | default('Wolperdingen') }}"
-_openvpn_key_org: "{{ openvpn_server.key_org | default('Jackalope') }}"
-_openvpn_key_email: "{{ openvpn_server.key_email | default('mail@example.com') }}"
-_openvpn_key_ou: "{{ openvpn_server.key_ou | default('Jackalope') }}"
-_openvpn_key_name: "{{ openvpn_server.key_name | default('Jackalope') }}"
+_openvpn_key_country: "{{ openvpn_server.key_country | default('') }}"
+_openvpn_key_province: "{{ openvpn_server.key_province | default('') }}"
+_openvpn_key_city: "{{ openvpn_server.key_city | default('') }}"
+_openvpn_key_org: "{{ openvpn_server.key_org | default(ansible_domain) }}"
+_openvpn_key_email: "{{ openvpn_server.key_email | default('vpn@' + ansible_domain) }}"
+_openvpn_key_ou: "{{ openvpn_server.key_ou | default(ansible_domain) }}"
+_openvpn_key_name: "{{ openvpn_server.key_name | default(ansible_hostname) }}"

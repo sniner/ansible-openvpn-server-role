@@ -1,3 +1,6 @@
+# Alternative to lookup table, but requires python-netaddr to be installed:
+#_openvpn_ipv4_netmask: "{{ '{{ openvpn_server.ipv4.prefix }}/{{ openvpn_server.ipv4.length }}' | ipaddr('netmask') }}"
+
 _openvpn_ipv4_netmask:
   32: 255.255.255.255
   31: 255.255.255.254
