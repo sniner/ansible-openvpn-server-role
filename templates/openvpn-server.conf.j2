@@ -17,7 +17,7 @@ dh /etc/openvpn/easy-rsa/keys/dh{{ _openvpn_key_size }}.pem
 push "route-ipv6 2000::/3 {{ _openvpn_ipv6_prefix }}:{{ _openvpn_ipv6_addon }}::1"
 push "redirect-gateway def1"
 push "redirect-gateway ipv6"
-push "dhcp-option DNS 8.8.4.4"
+push "dhcp-option DNS {{ _openvpn_dns_server }}"
 
 tls-auth /etc/openvpn/easy-rsa/keys/ta.key 0
 keepalive 30 90
