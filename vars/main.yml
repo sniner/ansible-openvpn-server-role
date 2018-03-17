@@ -1,27 +1,29 @@
+_openvpn_server: "{{ openvpn_server | default('{}') }}"
+
 # OpenVPN
 
-_openvpn_host: "{{ openvpn_server.host | default(ansible_fqdn) }}"
-_openvpn_port: "{{ openvpn_server.port | default('1194') }}"
-_openvpn_protocol: "{{ openvpn_server.protocol | default('udp') }}"
-_openvpn_dns_server: "{{ openvpn_server.dns_server | default('8.8.4.4') }}"
+_openvpn_host: "{{ _openvpn_server.host | default(ansible_fqdn) }}"
+_openvpn_port: "{{ _openvpn_server.port | default('1194') }}"
+_openvpn_protocol: "{{ _openvpn_server.protocol | default('udp') }}"
+_openvpn_dns_server: "{{ _openvpn_server.dns_server | default('8.8.4.4') }}"
 
-_openvpn_ipv4_prefix: "{{ openvpn_server.ipv4.prefix }}"
-_openvpn_ipv4_length: "{{ openvpn_server.ipv4.length }}"
-_openvpn_ipv6_prefix: "{{ openvpn_server.ipv6.prefix }}"
-_openvpn_ipv6_addon: "{{ openvpn_server.ipv6.addon | default('cafe') }}"
-_openvpn_ipv6_length: "{{ openvpn_server.ipv6.length | default(96) }}"
+_openvpn_ipv4_prefix: "{{ _openvpn_server.ipv4.prefix }}"
+_openvpn_ipv4_length: "{{ _openvpn_server.ipv4.length }}"
+_openvpn_ipv6_prefix: "{{ _openvpn_server.ipv6.prefix }}"
+_openvpn_ipv6_addon: "{{ _openvpn_server.ipv6.addon | default('cafe') }}"
+_openvpn_ipv6_length: "{{ _openvpn_server.ipv6.length | default(96) }}"
 
 _openvpn_public_interface: "{{ ansible_default_ipv4.alias }}"
 
 # PKI
 
-_openvpn_key_size: "{{ openvpn_server.key_size | default('2048') }}"
-_openvpn_ca_expire: "{{ openvpn_server.ca_expire | default('3650') }}"
-_openvpn_key_expire: "{{ openvpn_server.key_expire | default('3650') }}"
-_openvpn_key_country: "{{ openvpn_server.key_country | default('') }}"
-_openvpn_key_province: "{{ openvpn_server.key_province | default('') }}"
-_openvpn_key_city: "{{ openvpn_server.key_city | default('') }}"
-_openvpn_key_org: "{{ openvpn_server.key_org | default(ansible_domain) }}"
-_openvpn_key_email: "{{ openvpn_server.key_email | default('vpn@' + ansible_domain) }}"
-_openvpn_key_ou: "{{ openvpn_server.key_ou | default(ansible_domain) }}"
-_openvpn_key_name: "{{ openvpn_server.key_name | default(ansible_hostname) }}"
+_openvpn_key_size: "{{ _openvpn_server.key_size | default('2048') }}"
+_openvpn_ca_expire: "{{ _openvpn_server.ca_expire | default('3650') }}"
+_openvpn_key_expire: "{{ _openvpn_server.key_expire | default('3650') }}"
+_openvpn_key_country: "{{ _openvpn_server.key_country | default('') }}"
+_openvpn_key_province: "{{ _openvpn_server.key_province | default('') }}"
+_openvpn_key_city: "{{ _openvpn_server.key_city | default('') }}"
+_openvpn_key_org: "{{ _openvpn_server.key_org | default(ansible_domain) }}"
+_openvpn_key_email: "{{ _openvpn_server.key_email | default('vpn@' + ansible_domain) }}"
+_openvpn_key_ou: "{{ _openvpn_server.key_ou | default(ansible_domain) }}"
+_openvpn_key_name: "{{ _openvpn_server.key_name | default(ansible_hostname) }}"
